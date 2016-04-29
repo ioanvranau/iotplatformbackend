@@ -51,4 +51,24 @@ public class DeviceController {
             return new ResponseEntity<Device>(DeviceBuilder.build("no ip provided", "no name provided"), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @RequestMapping(value = "/devices", method = RequestMethod.DELETE)
+    public
+    @ResponseBody
+    ResponseEntity<Device> deleteDevice(@RequestBody Device device) throws UnknownHostException {
+        //
+        // Code processing the input parameters
+        //
+        if (device != null) {
+            log.info(device);
+            try {
+                deviceService.deleteDevice(device);
+            } catch (UnknownHostException e) {
+                throw e;
+            }
+            return new ResponseEntity<Device>(device, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Device>(DeviceBuilder.build("no ip provided", "no name provided"), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
