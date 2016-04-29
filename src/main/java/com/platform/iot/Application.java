@@ -37,7 +37,7 @@ public class Application {
             public void addCorsMappings(CorsRegistry registry) {
                 //https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
                 //https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
-                registry.addMapping("/**");
+                registry.addMapping("/**").allowedMethods("PUT", "DELETE", "GET", "POST", "OPTIONS");
             }
         };
     }

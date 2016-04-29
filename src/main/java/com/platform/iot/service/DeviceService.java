@@ -46,9 +46,10 @@ public class DeviceService {
         }
     }
 
-    public void deleteDevice(Device device) throws UnknownHostException {
+    public void deleteDevice(long deviceId) {
+        Device device = deviceRepository.findOne(deviceId);
         if (device != null) {
-            deviceRepository.delete(device);
+            deviceRepository.delete(deviceId);
         } else {
             throw new IotException("No device provided!");
         }
