@@ -22,12 +22,12 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        Device device1 = DeviceBuilder.build("localhost", "My super phone");
+        Device device1 = DeviceBuilder.build("localhost", "My phone");
         deviceRepository.save(device1);
 
         log.info("Saved device - name: " + device1.getName());
 
-        Device device2 = DeviceBuilder.build("127.0.0.1", "My super phone");
+        Device device2 = DeviceBuilder.build("127.0.0.1", "My new phone");
         deviceRepository.save(device2);
 
         log.info("Saved device - name: " + device2.getName());
