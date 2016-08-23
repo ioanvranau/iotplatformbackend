@@ -23,17 +23,17 @@ public class Device {
     private Location location;
     private String type;
     private Set<AccessRight> accessRights;
-    private List<Tag> tagsList;
+    private List<Tag> tags;
     private List<Sensor> deviceSensors;
 
     public Device(String name, String type, Location location, String ip,
-                  Set<AccessRight> accessRights, List<Tag> tagsList, List<Sensor> deviceSensors) {
+                  Set<AccessRight> accessRights, List<Tag> tags, List<Sensor> deviceSensors) {
         this.name = name;
         this.ip = ip;
         this.type = type;
         this.location = location;
         this.accessRights = accessRights;
-        this.tagsList = tagsList;
+        this.tags = tags;
         this.deviceSensors = deviceSensors;
     }
 
@@ -93,12 +93,12 @@ public class Device {
     }
 
     @ManyToMany
-    public List<Tag> getTagsList() {
-        return tagsList;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setTagsList(List<Tag> tagsList) {
-        this.tagsList = tagsList;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     @ManyToMany
@@ -127,8 +127,8 @@ public class Device {
         }
 
         StringBuilder tags = new StringBuilder();
-        if (tagsList != null) {
-            for (Tag tag : tagsList) {
+        if (this.tags != null) {
+            for (Tag tag : this.tags) {
                 tags.append(tag);
             }
         }
