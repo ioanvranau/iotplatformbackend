@@ -24,17 +24,17 @@ public class Device {
     private String type;
     private Set<AccessRight> accessRights;
     private List<Tag> tags;
-    private List<Sensor> deviceSensors;
+    private List<Sensor> sensors;
 
     public Device(String name, String type, Location location, String ip,
-                  Set<AccessRight> accessRights, List<Tag> tags, List<Sensor> deviceSensors) {
+                  Set<AccessRight> accessRights, List<Tag> tags, List<Sensor> sensors) {
         this.name = name;
         this.ip = ip;
         this.type = type;
         this.location = location;
         this.accessRights = accessRights;
         this.tags = tags;
-        this.deviceSensors = deviceSensors;
+        this.sensors = sensors;
     }
 
     public Device() {
@@ -102,12 +102,12 @@ public class Device {
     }
 
     @ManyToMany
-    public List<Sensor> getDeviceSensors() {
-        return deviceSensors;
+    public List<Sensor> getSensors() {
+        return sensors;
     }
 
-    public void setDeviceSensors(List<Sensor> deviceSensors) {
-        this.deviceSensors = deviceSensors;
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
     }
 
     @Override
@@ -133,8 +133,8 @@ public class Device {
             }
         }
         StringBuilder sensors = new StringBuilder();
-        if (deviceSensors != null) {
-            for (Sensor deviceSensor : deviceSensors) {
+        if (this.sensors != null) {
+            for (Sensor deviceSensor : this.sensors) {
                 sensors.append(deviceSensor);
             }
         }
