@@ -1,9 +1,13 @@
 package com.platform.iot.model;
 
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by ioan.vranau on 12/15/2015.
@@ -12,25 +16,32 @@ import javax.persistence.Id;
 @Entity
 public class Device {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long id;
     private String name;
-    private String avatar;
-    private String content;
     private String ip;
+    private Location location;
+    private String type;
+    private Set<AccessRight> accessRights;
+    private List<Tag> tagsList;
+    private List<Sensor> deviceSensors;
 
-    public Device(long id, String name, String avatar, String content, String ip) {
-        this.id = id;
+    public Device(String name, String type, Location location, String ip,
+                  Set<AccessRight> accessRights, List<Tag> tagsList, List<Sensor> deviceSensors) {
         this.name = name;
-        this.avatar = avatar;
-        this.content = content;
         this.ip = ip;
+        this.type = type;
+        this.location = location;
+        this.accessRights = accessRights;
+        this.tagsList = tagsList;
+        this.deviceSensors = deviceSensors;
     }
 
     public Device() {
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -47,23 +58,6 @@ public class Device {
         this.name = name;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-
     public String getIp() {
         return ip;
     }
@@ -72,14 +66,78 @@ public class Device {
         this.ip = ip;
     }
 
+    @ManyToOne
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @ManyToMany
+    public Set<AccessRight> getAccessRights() {
+        return accessRights;
+    }
+
+    public void setAccessRights(Set<AccessRight> accessRights) {
+        this.accessRights = accessRights;
+    }
+
+    @ManyToMany
+    public List<Tag> getTagsList() {
+        return tagsList;
+    }
+
+    public void setTagsList(List<Tag> tagsList) {
+        this.tagsList = tagsList;
+    }
+
+    @ManyToMany
+    public List<Sensor> getDeviceSensors() {
+        return deviceSensors;
+    }
+
+    public void setDeviceSensors(List<Sensor> deviceSensors) {
+        this.deviceSensors = deviceSensors;
+    }
+
     @Override
     public String toString() {
-        return "Device{" +
+        final String device = "Device{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", content='" + content + '\'' +
-                ", ip=" + ip +
+                ", ip='" + ip + '\'' +
+                ", location=" + location +
+                ", type='" + type + '\'' +
                 '}';
+        StringBuilder accessR = new StringBuilder();
+        if (accessRights != null) {
+            for (AccessRight accessRight : accessRights) {
+                accessR.append(accessRight);
+            }
+        }
+
+        StringBuilder tags = new StringBuilder();
+        if (tagsList != null) {
+            for (Tag tag : tagsList) {
+                tags.append(tag);
+            }
+        }
+        StringBuilder sensors = new StringBuilder();
+        if (deviceSensors != null) {
+            for (Sensor deviceSensor : deviceSensors) {
+                sensors.append(deviceSensor);
+            }
+        }
+        return device + "  " + accessR + "  " + tags + " " + sensors;
     }
 }

@@ -4,17 +4,21 @@ package com.platform.iot.controller;
  * Created by ioan.vranau on 1/4/2016.
  */
 
-import com.platform.iot.model.Device;
-import com.platform.iot.service.DeviceService;
-import com.platform.iot.utils.DeviceBuilder;
+import java.net.UnknownHostException;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.UnknownHostException;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import com.platform.iot.model.Device;
+import com.platform.iot.service.DeviceService;
+import com.platform.iot.utils.DeviceBuilder;
 
 @RestController
 public class DeviceController {
@@ -48,7 +52,7 @@ public class DeviceController {
             }
             return new ResponseEntity<Device>(addedDevice, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Device>(DeviceBuilder.build("no ip provided", "no name provided"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Device>(DeviceBuilder.build("no ip provided", "no name provided", null, null, null, null), HttpStatus.BAD_REQUEST);
         }
     }
 

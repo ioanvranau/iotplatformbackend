@@ -1,16 +1,15 @@
 package com.platform.iot.service;
 
+import java.net.UnknownHostException;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 import com.platform.iot.dao.DeviceRepository;
 import com.platform.iot.model.Device;
 import com.platform.iot.utils.IotException;
 import com.platform.iot.utils.IpValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import java.net.UnknownHostException;
-import java.util.List;
 
 /**
  * Created by ioan.vranau on 4/27/2016.
@@ -34,12 +33,6 @@ public class DeviceService {
 
             IpValidator.validate(deviceIp);
 
-            String deviceName = device.getName();
-            if (device.getName() != null && (deviceName.toLowerCase().contains("phone"))) {
-                device.setAvatar("smartphone");
-            } else {
-                device.setAvatar("error");
-            }
             return deviceRepository.save(device);
         } else {
             throw new IotException("No device provided!");

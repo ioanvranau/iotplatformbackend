@@ -1,8 +1,10 @@
 package com.platform.iot;
 
+import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 
 @SpringBootApplication
-@PropertySource("classpath:aplication.properties")
+@PropertySource("classpath:application.properties")
 @Configuration
 @EnableAutoConfiguration
 @EntityScan(basePackages = {"com.platform.iot.model"})
@@ -40,6 +42,13 @@ public class Application {
                 registry.addMapping("/**").allowedMethods("PUT", "DELETE", "GET", "POST", "OPTIONS");
             }
         };
+    }
+
+    @Bean
+    public ServletRegistrationBean h2servletRegistration() {
+        ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
+        registration.addUrlMappings("/console/*");
+        return registration;
     }
 
 }
