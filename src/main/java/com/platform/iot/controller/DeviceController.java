@@ -32,7 +32,7 @@ public class DeviceController {
     @RequestMapping("/device")
     public
     @ResponseBody
-    List<Device> devices(@RequestParam(value = "name", defaultValue = "World") String name) {
+    List<Device> getAllDevices() {
         return deviceService.getAllDevices();
     }
 

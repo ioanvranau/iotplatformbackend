@@ -14,15 +14,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * Created by ioan.vranau on 8/22/2016.
  */
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Tag {
 
     private long id;
     private String name;
-
-    private List<Device> devices;
 
     public Tag(String name) {
         this.name = name;
@@ -47,15 +42,6 @@ public class Tag {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
-    public List<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
     }
 
     @Override

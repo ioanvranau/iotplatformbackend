@@ -2,12 +2,14 @@ package com.platform.iot.service;
 
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 import com.platform.iot.dao.DeviceRepository;
+import com.platform.iot.model.AccessRight;
 import com.platform.iot.model.Device;
 import com.platform.iot.model.Location;
 import com.platform.iot.utils.IotException;
@@ -25,6 +27,9 @@ public class DeviceService {
     @Autowired
     private LocationService locationService;
 
+    @Autowired
+    private AccessRightsService accessRightsService;
+
     public List<Device> getAllDevices() {
         return Lists.newArrayList(deviceRepository.findAll());
     }
@@ -36,13 +41,22 @@ public class DeviceService {
             if (deviceIp == null || StringUtils.isEmpty(deviceIp.trim())) {
                 throw new IotException("No device ip provided!");
             }
-
             IpValidator.validate(deviceIp);
 
             if (device.getLocation() != null) {
                 Location location = locationService.getLocation(device.getLocation().getId());
                 if (location == null) {
                     locationService.addLocation(device.getLocation());
+                }
+            }
+
+            final Set<AccessRight> accessRights = device.getAccessRights();
+            if (accessRights != null) {
+                for (AccessRight accessRight : accessRights) {
+                    AccessRight existingAccessRight = accessRightsService.getAccessRight(accessRight.getId());
+                    if(existingAccessRight == null) {
+                        accessRightsService.addAccessRight(accessRight);
+                    }
                 }
             }
 
