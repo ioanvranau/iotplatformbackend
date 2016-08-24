@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import com.platform.iot.dao.AccessRightRepository;
 import com.platform.iot.dao.DeviceRepository;
 import com.platform.iot.dao.LocationRepository;
@@ -46,6 +47,7 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
 
     private Logger log = Logger.getLogger(DeviceLoader.class);
 
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         Location location = new Location(46.757372, 23.585699);
@@ -59,7 +61,6 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
         tags.add(new Tag("mobile"));
         tags.add(new Tag("android"));
         tags.add(new Tag("smartphone"));
-        tagRepository.save(tags);
 
         List<Metadata> sensorMetadataList = new ArrayList<Metadata>();
         sensorMetadataList.add(new Metadata("metadataName", "metadataValue"));

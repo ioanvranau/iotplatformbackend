@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +29,14 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
-    @RequestMapping("/devices")
+    @RequestMapping("/device")
     public
     @ResponseBody
     List<Device> devices(@RequestParam(value = "name", defaultValue = "World") String name) {
         return deviceService.getAllDevices();
     }
 
-    @RequestMapping(value = "/devices", method = RequestMethod.POST)
+    @RequestMapping(value = "/device", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public
     @ResponseBody
     ResponseEntity<Device> addDevice(@RequestBody Device device) throws UnknownHostException {
@@ -56,7 +57,7 @@ public class DeviceController {
         }
     }
 
-    @RequestMapping(value = "/devices", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/device", method = RequestMethod.DELETE)
     public
     @ResponseBody
     ResponseEntity<Device> deleteDevice(@RequestParam("id") long id) {

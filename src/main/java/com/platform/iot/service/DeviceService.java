@@ -4,10 +4,12 @@ import java.net.UnknownHostException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 import com.platform.iot.dao.DeviceRepository;
 import com.platform.iot.model.Device;
+import com.platform.iot.model.Location;
 import com.platform.iot.utils.IotException;
 import com.platform.iot.utils.IpValidator;
 
@@ -20,10 +22,14 @@ public class DeviceService {
     @Autowired
     DeviceRepository deviceRepository;
 
+    @Autowired
+    private LocationService locationService;
+
     public List<Device> getAllDevices() {
         return Lists.newArrayList(deviceRepository.findAll());
     }
 
+    @Transactional
     public Device addDevice(Device device) throws UnknownHostException {
         if (device != null) {
             String deviceIp = device.getIp();
@@ -32,6 +38,13 @@ public class DeviceService {
             }
 
             IpValidator.validate(deviceIp);
+
+            if (device.getLocation() != null) {
+                Location location = locationService.getLocation(device.getLocation().getId());
+                if (location == null) {
+                    locationService.addLocation(device.getLocation());
+                }
+            }
 
             return deviceRepository.save(device);
         } else {
