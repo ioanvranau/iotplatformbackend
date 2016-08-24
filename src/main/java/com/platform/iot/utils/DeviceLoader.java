@@ -55,6 +55,8 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
 
         Set<AccessRight> accessRights = new HashSet<AccessRight>();
         accessRights.add(new AccessRight("public"));
+        accessRights.add(new AccessRight("private"));
+        accessRights.add(new AccessRight("admin"));
         accessRightRepository.save(accessRights);
 
         List<Tag> tags = new ArrayList<Tag>();

@@ -1,6 +1,8 @@
 package com.platform.iot.service;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,15 +53,16 @@ public class DeviceService {
             }
 
             final Set<AccessRight> accessRights = device.getAccessRights();
+            final Set<AccessRight> validAccessRights = new HashSet<AccessRight>();
             if (accessRights != null) {
                 for (AccessRight accessRight : accessRights) {
-                    AccessRight existingAccessRight = accessRightsService.getAccessRight(accessRight.getId());
-                    if(existingAccessRight == null) {
-                        accessRightsService.addAccessRight(accessRight);
+                    AccessRight existingAccessRight = accessRightsService.getAccessRightByName(accessRight.getName());
+                    if(existingAccessRight != null) {
+                        validAccessRights.add(existingAccessRight);
                     }
                 }
             }
-
+            device.setAccessRights(validAccessRights);;
             return deviceRepository.save(device);
         } else {
             throw new IotException("No device provided!");
