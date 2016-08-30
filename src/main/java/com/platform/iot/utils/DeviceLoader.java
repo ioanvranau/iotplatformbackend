@@ -53,8 +53,10 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        Location location = new Location(46.757372, 23.585699);
+        Location location = new Location(46.77224125123537, 23.5853773355484);
+        Location location1 = new Location(46.76942602027047, 23.59038233757019);
         locationRepository.save(location);
+        locationRepository.save(location1);
 
         Set<AccessRight> accessRights = new HashSet<AccessRight>();
         accessRights.add(new AccessRight("public"));
@@ -81,7 +83,7 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
 
         final Sensor sensor1 = new Sensor("accelerometer1", "speed1", metadata2);
         sensorRepository.save(sensor1);
-        Device device2 = DeviceBuilder.build("127.0.0.1", "My new phone", location, accessRights, tags,
+        Device device2 = DeviceBuilder.build("127.0.0.1", "My new phone", location1, accessRights, tags,
                 Collections.singletonList(sensor1));
         log.info("--------- " + device2);
         deviceRepository.save(device2);
