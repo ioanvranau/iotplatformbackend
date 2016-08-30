@@ -11,32 +11,32 @@ import javax.persistence.Id;
 @Entity
 public class Location {
 
-    public double X;
-    public double Y;
+    public double longitude;
+    public double latitude;
     private long id;
 
-    public Location(double x, double y) {
-        X = x;
-        Y = y;
+    public Location(double longitude, double latidude) {
+        this.longitude = longitude;
+        latitude = latidude;
     }
 
     public Location() {
     }
 
-    public double getX() {
-        return X;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setX(double x) {
-        X = x;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public double getY() {
-        return Y;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setY(double y) {
-        Y = y;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     @Id
@@ -52,8 +52,8 @@ public class Location {
     @Override
     public String toString() {
         return "Location{" +
-                "X=" + X +
-                ", Y=" + Y +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
                 ", id=" + id +
                 '}';
     }

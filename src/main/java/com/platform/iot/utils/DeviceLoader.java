@@ -5,6 +5,8 @@ package com.platform.iot.utils;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +16,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import com.google.common.collect.Lists;
 import com.platform.iot.dao.AccessRightRepository;
 import com.platform.iot.dao.DeviceRepository;
 import com.platform.iot.dao.LocationRepository;
@@ -64,23 +67,22 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
         tags.add(new Tag("android"));
         tags.add(new Tag("smartphone"));
 
-        List<Metadata> sensorMetadataList = new ArrayList<Metadata>();
-        sensorMetadataList.add(new Metadata("metadataName", "metadataValue"));
-        sensorMetadataList.add(new Metadata("metadataName1", "metadataValue1"));
+        final List<Metadata> metadata1 = Collections.singletonList(new Metadata("metadataName", "metadataValue"));
+        final List<Metadata> metadata2 = Collections.singletonList(new Metadata("metadataName1", "metadataValue1"));
 
-
-        List<Sensor> sensors = new ArrayList<Sensor>();
-        sensors.add(new Sensor("accelerometer", "speed", sensorMetadataList));
-        sensorRepository.save(sensors);
-
-
-        Device device1 = DeviceBuilder.build("localhost", "My phone", location, accessRights, tags, sensors);
+        final Sensor sensor = new Sensor("accelerometer", "speed", metadata1);
+        sensorRepository.save(sensor);
+        Device device1 = DeviceBuilder.build("localhost", "My phone", location, accessRights, tags,
+                Collections.singletonList(sensor));
         log.info("--------- " + device1);
         deviceRepository.save(device1);
 
         log.info("Saved device - name: " + device1.getName());
 
-        Device device2 = DeviceBuilder.build("127.0.0.1", "My new phone", location, accessRights, tags, sensors);
+        final Sensor sensor1 = new Sensor("accelerometer1", "speed1", metadata2);
+        sensorRepository.save(sensor1);
+        Device device2 = DeviceBuilder.build("127.0.0.1", "My new phone", location, accessRights, tags,
+                Collections.singletonList(sensor1));
         log.info("--------- " + device2);
         deviceRepository.save(device2);
         log.info("Saved device - name: " + device2.getName());

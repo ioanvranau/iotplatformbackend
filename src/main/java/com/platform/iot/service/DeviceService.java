@@ -1,7 +1,6 @@
 package com.platform.iot.service;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 import com.platform.iot.dao.DeviceRepository;
+import com.platform.iot.dao.SensorRepository;
 import com.platform.iot.model.AccessRight;
 import com.platform.iot.model.Device;
 import com.platform.iot.model.Location;
+import com.platform.iot.model.Sensor;
 import com.platform.iot.utils.IotException;
 import com.platform.iot.utils.IpValidator;
 
@@ -34,6 +35,10 @@ public class DeviceService {
 
     public List<Device> getAllDevices() {
         return Lists.newArrayList(deviceRepository.findAll());
+    }
+
+    public Device getDeviceById(Long id) {
+        return deviceRepository.findOne(id);
     }
 
     @Transactional
@@ -57,16 +62,23 @@ public class DeviceService {
             if (accessRights != null) {
                 for (AccessRight accessRight : accessRights) {
                     AccessRight existingAccessRight = accessRightsService.getAccessRightByName(accessRight.getName());
-                    if(existingAccessRight != null) {
+                    if (existingAccessRight != null) {
                         validAccessRights.add(existingAccessRight);
                     }
                 }
             }
-            device.setAccessRights(validAccessRights);;
+            device.setAccessRights(validAccessRights);
             return deviceRepository.save(device);
         } else {
             throw new IotException("No device provided!");
         }
+    }
+
+    @Transactional
+    public Device updateDevice(Long deviceId, Sensor sensor) throws UnknownHostException {
+        final Device deviceById = getDeviceById(deviceId);
+        deviceById.getSensors().add(sensor);
+        return deviceRepository.save(deviceById);
     }
 
     public void deleteDevice(long deviceId) {

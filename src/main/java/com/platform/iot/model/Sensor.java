@@ -18,6 +18,7 @@ public class Sensor {
     private String name;
     private String type;
     private List<Metadata> metadata;
+    private Long deviceId;
 
     public Sensor(String name, String type, List<Metadata> metadata) {
         this.name = name;
@@ -61,6 +62,14 @@ public class Sensor {
 
     public void setMetadata(List<Metadata> metadata) {
         this.metadata = metadata;
+    }
+
+    public Long getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
     }
 
     @Override
