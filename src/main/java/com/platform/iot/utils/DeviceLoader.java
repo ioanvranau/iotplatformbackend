@@ -76,7 +76,6 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
         sensorRepository.save(sensor);
         Device device1 = DeviceBuilder.build("localhost", "My phone", location, accessRights, tags,
                 Collections.singletonList(sensor));
-        log.info("--------- " + device1);
         deviceRepository.save(device1);
 
         log.info("Saved device - name: " + device1.getName());
