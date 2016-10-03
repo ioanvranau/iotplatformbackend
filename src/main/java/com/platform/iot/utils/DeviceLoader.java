@@ -74,7 +74,7 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
 
         final Sensor sensor = new Sensor("accelerometer", "speed", metadata1);
         sensorRepository.save(sensor);
-        Device device1 = DeviceBuilder.build("localhost", "My phone", location, accessRights, tags,
+        Device device1 = DeviceBuilder.build("Android_0", "localhost", "My phone", location, accessRights, tags,
                 Collections.singletonList(sensor));
         deviceRepository.save(device1);
 
@@ -82,7 +82,7 @@ public class DeviceLoader implements ApplicationListener<ContextRefreshedEvent> 
 
         final Sensor sensor1 = new Sensor("accelerometer1", "speed1", metadata2);
         sensorRepository.save(sensor1);
-        Device device2 = DeviceBuilder.build("127.0.0.1", "My new phone", location1, accessRights, tags,
+        Device device2 = DeviceBuilder.build("Android_1","127.0.0.1", "My new phone", location1, accessRights, tags,
                 Collections.singletonList(sensor1));
         log.info("--------- " + device2);
         deviceRepository.save(device2);

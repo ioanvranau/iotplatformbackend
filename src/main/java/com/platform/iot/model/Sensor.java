@@ -18,7 +18,7 @@ public class Sensor {
     private String name;
     private String type;
     private List<Metadata> metadata;
-    private Long deviceId;
+    private String deviceId;
 
     public Sensor(String name, String type, List<Metadata> metadata) {
         this.name = name;
@@ -64,11 +64,11 @@ public class Sensor {
         this.metadata = metadata;
     }
 
-    public Long getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(Long deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 

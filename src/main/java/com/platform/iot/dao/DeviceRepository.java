@@ -8,5 +8,5 @@ import com.platform.iot.model.Device;
 /**
  * Created by ioan.vranau on 4/27/2016.
  */
-public interface DeviceRepository extends CrudRepository<Device, Long> {
+public interface DeviceRepository extends CrudRepository<Device, String> {
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.platform.iot.model.Device;
+import com.platform.iot.model.ServerResponse;
 import com.platform.iot.service.DeviceService;
 import com.platform.iot.utils.DeviceBuilder;
 
@@ -53,14 +55,14 @@ public class DeviceController {
             }
             return new ResponseEntity<Device>(addedDevice, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Device>(DeviceBuilder.build("no ip provided", "no name provided", null, null, null, null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Device>(DeviceBuilder.build("", "no ip provided", "no name provided", null, null, null, null), HttpStatus.BAD_REQUEST);
         }
     }
 
     @RequestMapping(value = "/device", method = RequestMethod.DELETE)
     public
     @ResponseBody
-    ResponseEntity<Device> deleteDevice(@RequestParam("id") long id) {
+    ResponseEntity<Device> deleteDevice(@RequestParam("id") String id) {
         //
         // Code processing the input parameters
         //
@@ -69,5 +71,18 @@ public class DeviceController {
         Device device = new Device();
         device.setId(id);
         return new ResponseEntity<Device>(device, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/newDeviceId")
+    public
+    @ResponseBody
+    ResponseEntity<ServerResponse> generateNewDeviceId(@RequestParam(value = "type", defaultValue = "") String type) {
+        final String generateNewDeviceId = deviceService.generateNewDeviceId(type);
+        if (StringUtils.isEmpty(generateNewDeviceId)) {
+//            return new ResponseEntity<Device>(DeviceBuilder.build("", "no ip provided", "no name provided", null, null, null, null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ServerResponse>(new ServerResponse("Cannot generate id"), HttpStatus.BAD_REQUEST);
+        }
+//        return new ResponseEntity<Device>(DeviceBuilder.build(generateNewDeviceId, "no ip provided", "no name provided", null, null, null, null), HttpStatus.OK);
+        return new ResponseEntity<ServerResponse>(new ServerResponse(generateNewDeviceId), HttpStatus.OK);
     }
 }

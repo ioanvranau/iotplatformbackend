@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Device {
 
 
-    private long id;
+    private String id;
     private String name;
     private String ip;
     private Location location;
@@ -31,8 +31,9 @@ public class Device {
     private List<Tag> tags;
     private List<Sensor> sensors;
 
-    public Device(String name, String type, Location location, String ip,
+    public Device(String id, String name, String type, Location location, String ip,
                   Set<AccessRight> accessRights, List<Tag> tags, List<Sensor> sensors) {
+        this.id = id;
         this.name = name;
         this.ip = ip;
         this.type = type;
@@ -46,12 +47,11 @@ public class Device {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -49,7 +49,7 @@ public class SensorController {
         //
         if (sensor != null) {
             log.info(sensor);
-            final Long deviceId = sensor.getDeviceId();
+            final String deviceId = sensor.getDeviceId();
             if(deviceId == null) {
                 return new ResponseEntity<Sensor>(new Sensor("No device selected for sensor!", null, null), HttpStatus.BAD_REQUEST);
             }

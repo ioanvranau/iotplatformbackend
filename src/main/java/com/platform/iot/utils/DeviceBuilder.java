@@ -13,7 +13,7 @@ import com.platform.iot.model.Tag;
  */
 public class DeviceBuilder {
 
-    public static Device build(String ip, String name, Location location, Set<AccessRight> accessRights, List<Tag> tags, List<Sensor> sensors) {
-        return new Device(name, "phone", location, ip, accessRights, tags, sensors);
+    public static Device build(String id, String ip, String name, Location location, Set<AccessRight> accessRights, List<Tag> tags, List<Sensor> sensors) {
+        return new Device(id, name, "phone", location, ip, accessRights, tags, sensors);
     }
 }
