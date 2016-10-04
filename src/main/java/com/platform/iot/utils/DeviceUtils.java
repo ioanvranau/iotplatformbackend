@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class DeviceUtils {
 
-    public static long randLong(int min, int max) {
+    public static long randLong(long min, long max) {
 
         return ThreadLocalRandom.current().nextLong((max - min) + 1) + min;
     }

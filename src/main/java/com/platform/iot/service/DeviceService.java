@@ -3,7 +3,6 @@ package com.platform.iot.service;
 import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import com.platform.iot.model.Device;
 import com.platform.iot.model.Location;
 import com.platform.iot.model.Sensor;
 import com.platform.iot.utils.IotException;
-import com.platform.iot.utils.IpValidator;
 import static com.platform.iot.utils.DeviceUtils.randLong;
 
 /**
@@ -44,13 +42,13 @@ public class DeviceService {
     }
 
     @Transactional
-    public Device addDevice(Device device) throws UnknownHostException {
+    public Device addDevice(Device device) {
         if (device != null) {
-            String deviceIp = device.getIp();
-            if (deviceIp == null || StringUtils.isEmpty(deviceIp.trim())) {
-                throw new IotException("No device ip provided!");
+            String deviceId = device.getId();
+            if (deviceId == null || StringUtils.isEmpty(deviceId.trim())) {
+                final String newDeviceId = generateNewDeviceId(null);
+                device.setId(newDeviceId);
             }
-            IpValidator.validate(deviceIp);
 
             if (device.getLocation() != null) {
                 Location location = locationService.getLocation(device.getLocation().getId());
@@ -60,7 +58,7 @@ public class DeviceService {
             }
 
             final Set<AccessRight> accessRights = device.getAccessRights();
-            final Set<AccessRight> validAccessRights = new HashSet<AccessRight>();
+            final Set<AccessRight> validAccessRights = new HashSet<>();
             if (accessRights != null) {
                 for (AccessRight accessRight : accessRights) {
                     AccessRight existingAccessRight = accessRightsService.getAccessRightByName(accessRight.getName());
@@ -99,16 +97,23 @@ public class DeviceService {
         }
         String deviceId;
 
-        deviceId = deviceType + randLong(0, 1000);
+        long max = 10;
+        long min = 0;
+        deviceId = deviceType + randLong(min, max);
         Device databaseDevice = deviceRepository.findOne(deviceId);
         int i = 1;
 
         while (databaseDevice != null) {
-            deviceId = deviceType + randLong(0, 100);
+            deviceId = deviceType + randLong(min, max);
             databaseDevice = deviceRepository.findOne(deviceId);
             log.info("Trying to generate a new device id: " + i++);
-            if (i > 1000) {
-                return null;
+            if (i > max * 5) {
+                if(max * 10 > Long.MAX_VALUE) {
+                    return null;
+                }
+                min = max;
+                max *= 10;
+                i = 0;
             }
         }
         log.info("New device id generated: " + deviceId);

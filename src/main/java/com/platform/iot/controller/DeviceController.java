@@ -42,20 +42,13 @@ public class DeviceController {
     public
     @ResponseBody
     ResponseEntity<Device> addDevice(@RequestBody Device device) throws UnknownHostException {
-        //
-        // Code processing the input parameters
-        //
         if (device != null) {
             log.info(device);
             Device addedDevice;
-            try {
-                addedDevice = deviceService.addDevice(device);
-            } catch (UnknownHostException e) {
-                throw e;
-            }
-            return new ResponseEntity<Device>(addedDevice, HttpStatus.OK);
+            addedDevice = deviceService.addDevice(device);
+            return new ResponseEntity<>(addedDevice, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Device>(DeviceBuilder.build("", "no ip provided", "no name provided", null, null, null, null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(DeviceBuilder.build("", "No device provided", "No name provided", null, null, null, null), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -70,7 +63,7 @@ public class DeviceController {
         deviceService.deleteDevice(id);
         Device device = new Device();
         device.setId(id);
-        return new ResponseEntity<Device>(device, HttpStatus.OK);
+        return new ResponseEntity<>(device, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/newDeviceId")
@@ -79,10 +72,8 @@ public class DeviceController {
     ResponseEntity<ServerResponse> generateNewDeviceId(@RequestParam(value = "type", defaultValue = "") String type) {
         final String generateNewDeviceId = deviceService.generateNewDeviceId(type);
         if (StringUtils.isEmpty(generateNewDeviceId)) {
-//            return new ResponseEntity<Device>(DeviceBuilder.build("", "no ip provided", "no name provided", null, null, null, null), HttpStatus.BAD_REQUEST);
-            return new ResponseEntity<ServerResponse>(new ServerResponse("Cannot generate id"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ServerResponse("Cannot generate id"), HttpStatus.BAD_REQUEST);
         }
-//        return new ResponseEntity<Device>(DeviceBuilder.build(generateNewDeviceId, "no ip provided", "no name provided", null, null, null, null), HttpStatus.OK);
-        return new ResponseEntity<ServerResponse>(new ServerResponse(generateNewDeviceId), HttpStatus.OK);
+        return new ResponseEntity<>(new ServerResponse(generateNewDeviceId), HttpStatus.OK);
     }
 }
