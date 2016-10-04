@@ -48,17 +48,16 @@ public class SensorController {
             log.info(sensor);
             final String deviceId = sensor.getDeviceId();
             if(deviceId == null) {
-                return new ResponseEntity<Sensor>(new Sensor("No device selected for sensor!", null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new Sensor("No device selected for sensor!", null, null), HttpStatus.BAD_REQUEST);
             }
 
             sensorsService.addSensor(sensor);
 
             deviceService.updateDevice(deviceId, sensor);
 
-            return new ResponseEntity<Sensor>(sensor, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Sensor>(new Sensor("No name provided for sensor", null, null), HttpStatus.BAD_REQUEST);
-        }
+            return new ResponseEntity<>(sensor, HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(new Sensor("No name provided for sensor", null, null), HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/sensor", method = RequestMethod.DELETE)
@@ -69,6 +68,6 @@ public class SensorController {
         sensorsService.deleteSensor(id);
         Sensor sensor = new Sensor();
         sensor.setId(id);
-        return new ResponseEntity<Sensor>(sensor, HttpStatus.OK);
+        return new ResponseEntity<>(sensor, HttpStatus.OK);
     }
 }

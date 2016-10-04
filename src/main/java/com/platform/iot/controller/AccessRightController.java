@@ -43,9 +43,9 @@ public class AccessRightController {
             log.info(accessRight);
             AccessRight addedAccessRight;
             addedAccessRight = accessRightsService.addAccessRight(accessRight);
-            return new ResponseEntity<AccessRight>(addedAccessRight, HttpStatus.OK);
+            return new ResponseEntity<>(addedAccessRight, HttpStatus.OK);
         } else {
-            return new ResponseEntity<AccessRight>(new AccessRight("No name provided for access right"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AccessRight("No name provided for access right"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -57,6 +57,6 @@ public class AccessRightController {
         accessRightsService.deleteAccessRight(id);
         AccessRight accessRight = new AccessRight();
         accessRight.setId(id);
-        return new ResponseEntity<AccessRight>(accessRight, HttpStatus.OK);
+        return new ResponseEntity<>(accessRight, HttpStatus.OK);
     }
 }
