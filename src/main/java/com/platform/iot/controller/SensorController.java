@@ -44,9 +44,6 @@ public class SensorController {
     public
     @ResponseBody
     ResponseEntity<Sensor> addSensor(@RequestBody Sensor sensor) throws UnknownHostException {
-        //
-        // Code processing the input parameters
-        //
         if (sensor != null) {
             log.info(sensor);
             final String deviceId = sensor.getDeviceId();
@@ -68,9 +65,6 @@ public class SensorController {
     public
     @ResponseBody
     ResponseEntity<Sensor> deleteSensor(@RequestParam("id") long id) {
-        //
-        // Code processing the input parameters
-        //
         log.info(id);
         sensorsService.deleteSensor(id);
         Sensor sensor = new Sensor();

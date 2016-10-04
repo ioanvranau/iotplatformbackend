@@ -56,9 +56,6 @@ public class DeviceController {
     public
     @ResponseBody
     ResponseEntity<Device> deleteDevice(@RequestParam("id") String id) {
-        //
-        // Code processing the input parameters
-        //
         log.info(id);
         deviceService.deleteDevice(id);
         Device device = new Device();

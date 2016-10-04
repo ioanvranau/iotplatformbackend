@@ -39,9 +39,6 @@ public class AccessRightController {
     public
     @ResponseBody
     ResponseEntity<AccessRight> addAccessRight(@RequestBody AccessRight accessRight) throws UnknownHostException {
-        //
-        // Code processing the input parameters
-        //
         if (accessRight != null) {
             log.info(accessRight);
             AccessRight addedAccessRight;
@@ -56,9 +53,6 @@ public class AccessRightController {
     public
     @ResponseBody
     ResponseEntity<AccessRight> deleteAccessRight(@RequestParam("id") long id) {
-        //
-        // Code processing the input parameters
-        //
         log.info(id);
         accessRightsService.deleteAccessRight(id);
         AccessRight accessRight = new AccessRight();
